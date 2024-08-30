@@ -1,0 +1,26 @@
+name: Deploy Migrations to Staging
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      SUPABASE_ACCESS_TOKEN: sbp_db1a9e850f4d69f99c2768a225c023f3e39936f4
+      SUPABASE_DB_PASSWORD: K#1kyadav123
+      SUPABASE_PROJECT_ID: mwywypibfcjqnrnpbazf
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - run: supabase link --project-ref $SUPABASE_PROJECT_ID
+      - run: supabase db push
